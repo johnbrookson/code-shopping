@@ -2,15 +2,17 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use CodeShopping\Common\OnlyTrashed;
+use CodeShopping\Events\UserCreatedEvent;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\UserRequest;
 use CodeShopping\Http\Resources\UserResource;
-use Illuminate\Database\Eloquent\Builder;
 use CodeShopping\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use OnlyTrashed;
 
     public function index(Request $request)
     {
@@ -23,10 +25,8 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
-        $user =  User::create($data);
-        $user->refresh();
+        $user =  User::create($request->all());
+        event(new UserCreatedEvent($user));
         return new UserResource($user);
     }
 
@@ -39,9 +39,7 @@ class UserController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
-        $user->fill($data);
+        $user->fill($request->all());
         $user->save();
 
         return new UserResource($user);
@@ -54,11 +52,5 @@ class UserController extends Controller
         return response()->json([], 204);
     }
 
-    private function onlyTrashedIfRequested(Request $request, Builder $query)
-    {
-        if ($request->get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
-    }
+
 }

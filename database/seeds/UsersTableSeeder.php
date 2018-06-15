@@ -1,5 +1,6 @@
 <?php
 
+use CodeShopping\Models\User;
 use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
@@ -11,7 +12,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\CodeShopping\Models\User::class, 20)
+        factory(User::class, 1)
+            ->states('admin')
+            ->create([
+                'name' => 'Admininstrator',
+                'email' => 'admin@user.com'
+            ]);
+        factory(User::class, 20)
             ->states('client')
             ->create();
     }
