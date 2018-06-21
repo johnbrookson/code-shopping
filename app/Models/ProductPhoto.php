@@ -31,8 +31,8 @@ class ProductPhoto extends Model
             return new Collection($photos);
         } catch (\Exception $exception) {
             self::deleteFiles($productId, $files);
-                \DB::rollBack();
-                throw $exception;
+            \DB::rollBack();
+            throw $exception;
         }
     }
 
