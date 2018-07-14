@@ -25,7 +25,7 @@ class ProductCategoryController extends Controller
         /** @var Collection $categories */
         $categories = Category::whereIn('id', $categoriesAttachedId)->get();
 
-        return $categories->count() ? response()->json(new ProductCategoryResource($categories), 201) : [];
+        return $categories->count() ? response()->json(new ProductCategoryResource($product), 201) : [];
 
     }
 

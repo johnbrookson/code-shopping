@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $query = User::query();
         $query = $this->onlyTrashedIfRequested($request, $query);
-        $users = $query->paginate(10);
+        $users = $query->paginate();
         return UserResource::collection($users);
     }
 

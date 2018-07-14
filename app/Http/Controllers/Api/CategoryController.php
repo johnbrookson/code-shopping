@@ -6,13 +6,15 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Requests\CategoryRequest;
 use CodeShopping\Http\Resources\CategoryResource;
 use CodeShopping\Models\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        return CategoryResource::collection(Category::all());
+        $categories = $request->has('all') ? Category::all() : Category::paginate();
+        return CategoryResource::collection($categories);
     }
 
     public function store(CategoryRequest $request)
@@ -31,7 +33,7 @@ class CategoryController extends Controller
     {
         $category->fill($request->all());
         $category->save();
-        new CategoryResource($category);
+        return new CategoryResource($category);
     }
 
     public function destroy(Category $category)
