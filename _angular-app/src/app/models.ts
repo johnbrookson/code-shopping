@@ -29,9 +29,9 @@ export interface User{
     id?: number;
     name: string;
     email: string;
-    password: string,
-    role: number;
-    active: boolean;
+    password?: string,
+    role?: number;
+    active?: boolean;
     readonly created_at?: { date: string };
     readonly updated_at?: { date: string };
 }

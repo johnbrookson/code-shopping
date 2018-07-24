@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Credentials} from "../../../../models";
-import {AuthService} from "../../../../services/auth/auth.service";
+import {AuthService} from "../../../../services/auth.service";
 
 @Component({
     selector: 'app-login',
@@ -26,9 +26,7 @@ export class LoginComponent implements OnInit {
 
     submit() {
         this.authService.login(this.credentials)
-            .subscribe((data) => {
-                const token = data.token;
-                window.localStorage.setItem('token', token);
+            .subscribe(() => {
                 this.authService.logged = true;
                 this.router.navigate(['/admin']);
 

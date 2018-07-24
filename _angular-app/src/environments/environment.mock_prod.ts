@@ -2,7 +2,7 @@ export const environment = {
   production: true,
     api: {
         protocol: 'https',
-        host: ' ',
+        host: '',
         get url() {
             return `${this.protocol}://${this.host}/api`
         }

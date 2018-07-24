@@ -23,7 +23,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
 
     Route::group(['middleware' => [
         'auth:api',
-        // 'jwt.refresh'
+        'jwt.refresh'
     ]], function() {
         Route::name('logout')->post('logout', 'AuthController@logout');
         Route::name('me')->get('me', 'AuthController@me');
